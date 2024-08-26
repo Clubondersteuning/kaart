@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Maps with Custom Markers</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCO9GS3yVK7tX2qg_fa-enRzDkpFcez3x8" async defer></script>
+    <style>
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script>
+        function initMap() {
+            // Get the URL parameters for markers
+            const params = new URLSearchParams(window.location.search);
+            const markersParam = params.get('markers');
+
+            // Set default center coordinates
+            const mapCenter = { lat: 0, lng: 0 };
+
+            // Initialize map
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 2,
+                center: mapCenter
+            });
+
+            if (markersParam) {
+                const markers = markersParam.split(';');
+
+                markers.forEach(markerInfo => {
+                    const [lat, lng, color] = markerInfo.split(',');
+
+                    if (lat && lng && color) {
+                        // Parse latitude and longitude
+                        const position = { lat: parseFloat(lat), lng: parseFloat(lng) };
+
+                        // Create a marker with a custom color
+                        const marker = new google.maps.Marker({
+                            position: position,
+                            map: map,
+                            icon: {
+                                path: google.maps.SymbolPath.CIRCLE,
+                                scale: 10,
+                                fillColor: color,
+                                fillOpacity: 1,
+                                strokeWeight: 2,
+                                strokeColor: 'black'
+                            }
+                        });
+
+                        // Adjust the map center to the first marker
+                        if (markers.indexOf(markerInfo) === 0) {
+                            map.setCenter(position);
+                        }
+                    }
+                });
+            }
+        }
+
+        // Load the map
+        window.onload = initMap;
+    </script>
+</body>
+</html>
