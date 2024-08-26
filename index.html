@@ -20,13 +20,15 @@
             // Get the URL parameters for markers
             const params = new URLSearchParams(window.location.search);
             const markersParam = params.get('markers');
+            const centerParam = params.get('center');
 
             // Set default center coordinates
-            const mapCenter = { lat: 0, lng: 0 };
+            const [clat, clng] = centerParam.split(',');
+            const mapCenter = { lat: parseFloat(clat), lng: parseFloat(clng) };
 
             // Initialize map
             const map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 2,
+                zoom: 13,
                 center: mapCenter
             });
 
