@@ -21,7 +21,6 @@
             const params = new URLSearchParams(window.location.search);
             const markersParam = params.get('markers');
             const centerParam = params.get('center');
-            const titleParam = params.get('title');
 
             // Set default center coordinates
             const [clat, clng] = centerParam.split(',');
@@ -37,7 +36,7 @@
                 const markers = markersParam.split('||');
 
                 markers.forEach(markerInfo => {
-                    const [lat, lng, color] = markerInfo.split(',');
+                    const [lat, lng, color, titel] = markerInfo.split(',');
 
                     if (lat && lng && color) {
                         // Parse latitude and longitude
@@ -47,7 +46,7 @@
                         const marker = new google.maps.Marker({
                             position: position,
                             map: map,
-                            title: titleParam,
+                            title: titel,
                             icon: {
                                 path: google.maps.SymbolPath.CIRCLE,
                                 scale: 10,
