@@ -33,7 +33,7 @@
             });
 
             if (markersParam) {
-                const markers = markersParam.split(';');
+                const markers = markersParam.split('-');
 
                 markers.forEach(markerInfo => {
                     const [lat, lng, color] = markerInfo.split(',');
