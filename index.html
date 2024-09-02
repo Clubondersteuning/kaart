@@ -11,6 +11,14 @@
             height: 100vh;
             width: 100%;
         }
+        .custom-label {
+            font-weight: bold;
+            background-color: white;
+            padding: 2px 5px;
+            border: 1px solid black;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body>
@@ -43,25 +51,31 @@
                         // Parse latitude and longitude
                         const position = { lat: parseFloat(lat), lng: parseFloat(lng) };
 
-                        // Create a marker with a custom color
-                        const marker = new google.maps.Marker({
-                            position: position,
+                        // Create a custom marker element with color and label
+                        const markerDiv = document.createElement('div');
+                        markerDiv.style.backgroundColor = color;
+                        markerDiv.style.width = '20px';
+                        markerDiv.style.height = '20px';
+                        markerDiv.style.borderRadius = '50%';
+                        markerDiv.style.border = '2px solid black';
+                        markerDiv.style.position = 'relative';
+
+                        const labelDiv = document.createElement('div');
+                        labelDiv.textContent = label;
+                        labelDiv.className = 'custom-label';
+                        labelDiv.style.position = 'absolute';
+                        labelDiv.style.top = '-25px';
+                        labelDiv.style.left = '50%';
+                        labelDiv.style.transform = 'translateX(-50%)';
+
+                        // Append the label to the marker element
+                        markerDiv.appendChild(labelDiv);
+
+                        // Create an AdvancedMarkerElement
+                        const advancedMarker = new google.maps.marker.AdvancedMarkerElement({
                             map: map,
-                            title: titel,
-                            icon: {
-                                path: google.maps.SymbolPath.CIRCLE,
-                                scale: 10,
-                                fillColor: color,
-                                fillOpacity: 1,
-                                strokeWeight: 2,
-                                strokeColor: 'black'
-                            },
-                            label: {
-                                text: titel,
-                                color: "white",
-                                fontSize: "16px",
-                                fontWeight: "bold"
-                            }
+                            position: position,
+                            content: markerDiv
                         });
 
                         // Adjust the map center to the first marker
