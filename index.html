@@ -46,9 +46,6 @@
                         // Parse latitude and longitude
                         const position = { lat: parseFloat(lat), lng: parseFloat(lng) };
 
-                        // Create a marker with a custom color
-                        const marker = new google.maps.Marker({
-                            position: position,
                         // Create a custom marker element with color and label
                         const markerDiv = document.createElement('div');
                         markerDiv.style.backgroundColor = color;
