@@ -35,7 +35,8 @@
             // Initialize map
             const map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 13,
-                center: mapCenter
+                center: mapCenter,
+                mapId: "Demomapid"
             });
             if (markersParam) {
                 const markers = markersParam.split('||');
