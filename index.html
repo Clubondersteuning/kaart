@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clubondersteuning</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCO9GS3yVK7tX2qg_fa-enRzDkpFcez3x8&libraries=marker" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCO9GS3yVK7tX2qg_fa-enRzDkpFcez3x8" async defer></script>
     <style>
         #map {
             height: 100vh;
@@ -18,40 +18,36 @@
             border: 1px solid black;
             border-radius: 4px;
             white-space: nowrap;
-            color: black;
         }
     </style>
 </head>
 <body>
     <div id="map"></div>
-
     <script>
         function initMap() {
             // Get the URL parameters for markers
             const params = new URLSearchParams(window.location.search);
             const markersParam = params.get('markers');
             const centerParam = params.get('center');
-
             // Set default center coordinates
             const [clat, clng] = centerParam.split(',');
             const mapCenter = { lat: parseFloat(clat), lng: parseFloat(clng) };
-
             // Initialize map
             const map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 13,
                 center: mapCenter
             });
-
             if (markersParam) {
                 const markers = markersParam.split('||');
-
                 markers.forEach(markerInfo => {
                     const [lat, lng, color, titel] = markerInfo.split(',');
-
                     if (lat && lng && color) {
                         // Parse latitude and longitude
                         const position = { lat: parseFloat(lat), lng: parseFloat(lng) };
 
+                        // Create a marker with a custom color
+                        const marker = new google.maps.Marker({
+                            position: position,
                         // Create a custom marker element with color and label
                         const markerDiv = document.createElement('div');
                         markerDiv.style.backgroundColor = color;
@@ -62,10 +58,10 @@
                         markerDiv.style.position = 'relative';
 
                         const labelDiv = document.createElement('div');
-                        labelDiv.textContent = titel;
+                        labelDiv.textContent = label;
                         labelDiv.className = 'custom-label';
                         labelDiv.style.position = 'absolute';
-                        labelDiv.style.bottom = '30px';
+                        labelDiv.style.top = '-25px';
                         labelDiv.style.left = '50%';
                         labelDiv.style.transform = 'translateX(-50%)';
 
@@ -75,6 +71,21 @@
                         // Create an AdvancedMarkerElement
                         const advancedMarker = new google.maps.marker.AdvancedMarkerElement({
                             map: map,
+                            title: titel,
+                            icon: {
+                                path: google.maps.SymbolPath.CIRCLE,
+                                scale: 10,
+                                fillColor: color,
+                                fillOpacity: 1,
+                                strokeWeight: 2,
+                                strokeColor: 'black'
+                            },
+                            label: {
+                                text: titel,
+                                color: "white",
+                                fontSize: "16px",
+                                fontWeight: "bold"
+                            }
                             position: position,
                             content: markerDiv
                         });
@@ -87,7 +98,6 @@
                 });
             }
         }
-
         // Load the map
         window.onload = initMap;
     </script>
